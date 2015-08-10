@@ -12888,18 +12888,22 @@ Elm.Simulator.Input.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $Simulator$Cell = Elm.Simulator.Cell.make(_elm),
    $Simulator$Unit = Elm.Simulator.Unit.make(_elm);
-   var cell = A3($Json$Decode.object2,
-   F2(function (v0,v1) {
-      return {ctor: "_Tuple2"
-             ,_0: v0
-             ,_1: v1};
-   }),
-   A2($Json$Decode._op[":="],
-   "x",
-   $Json$Decode.$int),
-   A2($Json$Decode._op[":="],
-   "y",
-   $Json$Decode.$int));
+   var cell = function () {
+      var convert = F2(function (x,
+      y) {
+         return $Simulator$Cell.fromInputCell($Simulator$Cell.InputCell({ctor: "_Tuple2"
+                                                                        ,_0: x
+                                                                        ,_1: y}));
+      });
+      return A3($Json$Decode.object2,
+      convert,
+      A2($Json$Decode._op[":="],
+      "x",
+      $Json$Decode.$int),
+      A2($Json$Decode._op[":="],
+      "y",
+      $Json$Decode.$int));
+   }();
    var unit = A3($Json$Decode.object2,
    $Simulator$Unit.Unit,
    A2($Json$Decode._op[":="],
