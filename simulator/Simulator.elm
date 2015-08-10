@@ -14,7 +14,7 @@ import Simulator.Output as Output
 import Simulator.Command as Command
 import Simulator.Unit as Unit exposing (Unit)
 import Simulator.Random as SimulatorRandom
-import Sample
+--import Sample
 
 type Action = InputChange String | OutputChange String | Submit | Tick
 
@@ -23,6 +23,9 @@ type alias Model =
   , output : String
   , simulation : Maybe Simulation.Model
   }
+
+port submittedInput : String
+port submittedOutput : String
 
 main =
   let
@@ -45,8 +48,8 @@ main =
 -- model
 
 initialModel =
-  { input = Sample.input
-  , output = Sample.output
+  { input = submittedInput
+  , output = submittedOutput
   , simulation = Nothing
   }
 
