@@ -13551,7 +13551,7 @@ Elm.Simulator.Unit.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $Simulator$Cell = Elm.Simulator.Cell.make(_elm),
    $Simulator$Command = Elm.Simulator.Command.make(_elm);
-   var unitWidth = function (unit) {
+   var edgesOfUnit = function (unit) {
       return function () {
          var toCoords = function (_v0) {
             return function () {
@@ -13595,7 +13595,17 @@ Elm.Simulator.Unit.make = function (_elm) {
             _U.badCase($moduleName,
             "on line 57, column 33 to 65");
          }();
-         return max - min + 1;
+         return {ctor: "_Tuple2"
+                ,_0: min
+                ,_1: max};
+      }();
+   };
+   var unitWidth = function (unit) {
+      return function () {
+         var $ = edgesOfUnit(unit),
+         left = $._0,
+         right = $._1;
+         return right - left + 1;
       }();
    };
    var fromInputCellsUnit = function (inputUnit) {
@@ -13643,7 +13653,9 @@ Elm.Simulator.Unit.make = function (_elm) {
    var centerUnit = F2(function (boardWidth,
    unit) {
       return function () {
-         var distance = (boardWidth - unitWidth(unit)) / 2 | 0;
+         var distance = ((boardWidth - unitWidth(unit)) / 2 | 0) - function ($) {
+            return $Basics.fst(edgesOfUnit($));
+         }(unit);
          var command = _U.cmp(distance,
          0) < 0 ? $Simulator$Command.Move($Simulator$Command.W) : $Simulator$Command.Move($Simulator$Command.E);
          var commands = A2($List.repeat,
@@ -13667,6 +13679,7 @@ Elm.Simulator.Unit.make = function (_elm) {
                                 ,commandUnit: commandUnit
                                 ,fromInputCellsUnit: fromInputCellsUnit
                                 ,centerUnit: centerUnit
+                                ,edgesOfUnit: edgesOfUnit
                                 ,unitWidth: unitWidth};
    return _elm.Simulator.Unit.values;
 };
